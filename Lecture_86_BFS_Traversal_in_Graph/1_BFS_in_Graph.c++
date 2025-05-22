@@ -1,23 +1,23 @@
 #include<iostream>
 #include<vector>
 #include<unordered_map>
-#include<list>
+#include<set>
 #include<queue>
 using namespace std;
 
 // Function to prepare adjacency list
-void prepareAdjList(unordered_map<int, list<int>>& adjList, vector<pair<int, int>>& edges) {
+void prepareAdjList(unordered_map<int, set<int>>& adjList, vector<pair<int, int>>& edges) {
     for (int i = 0; i < edges.size(); i++) {
         int u = edges[i].first;
         int v = edges[i].second;
 
-        adjList[u].push_back(v);
-        adjList[v].push_back(u); // For undirected graph
+        adjList[u].insert(v);
+        adjList[v].insert(u); // For undirected graph
     }
 }
 
 // Single component BFS
-void bfs(unordered_map<int, list<int>>& adjList, unordered_map<int, bool>& visited, vector<int>& ans, int node) {
+void bfs(unordered_map<int, set<int>>& adjList, unordered_map<int, bool>& visited, vector<int>& ans, int node) {
     queue<int> q;
     q.push(node);
     visited[node] = 1;
@@ -38,7 +38,7 @@ void bfs(unordered_map<int, list<int>>& adjList, unordered_map<int, bool>& visit
 
 // Complete BFS traversal (handles disconnected components)
 vector<int> bfsTraversal(int vertex, vector<pair<int, int>> edges) {
-    unordered_map<int, list<int>> adjList;
+    unordered_map<int, set<int>> adjList;
     vector<int> ans;
     unordered_map<int, bool> visited;
 
