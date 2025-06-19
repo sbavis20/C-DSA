@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool solve(int N, int arr[], int target) {
+    vector<vector<bool>> dp(N + 1, vector<bool>(target + 1, false));
+
+    for (int i = 0; i <= N; i++) {
+        dp[i][0] = true; // Zero sum is always possible
+    }
+
+    for (int index = N - 1; index >= 0; index--) {
+        for (int t = 0; t <= target; t++) {
+            bool include = false;
+            if (t - arr[index] >= 0)
+                include = dp[index + 1][t - arr[index]];
+
+            bool exclude = dp[index + 1][t];
+
+            dp[index][t] = include || exclude;
+        }
+    }
+
+    return dp[0][target];
+}
+
+int equalPartition(int N, int arr[]) {
+    int total = 0;
+    for (int i = 0; i < N; i++) {
+        total += arr[i];
+    }
+
+    if (total % 2 != 0) {
+        return 0;
+    }
+
+    int target = total / 2;
+
+    return solve(N, arr, target);
+}
+
+int main() {
+    // Test case 1
+    int arr1[] = {1, 5, 11, 5};
+    int N1 = sizeof(arr1) / sizeof(arr1[0]);
+    cout << "Can be partitioned: " << (equalPartition(N1, arr1) ? "Yes" : "No") << endl;
+
+    // Test case 2
+    int arr2[] = {1, 2, 3, 5};
+    int N2 = sizeof(arr2) / sizeof(arr2[0]);
+    cout << "Can be partitioned: " << (equalPartition(N2, arr2) ? "Yes" : "No") << endl;
+
+    // Test case 3
+    int arr3[] = {3, 1, 1, 2, 2, 1};
+    int N3 = sizeof(arr3) / sizeof(arr3[0]);
+    cout << "Can be partitioned: " << (equalPartition(N3, arr3) ? "Yes" : "No") << endl;
+
+    return 0;
+}
