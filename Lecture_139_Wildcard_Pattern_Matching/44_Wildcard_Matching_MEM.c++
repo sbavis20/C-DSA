@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool solve(string&str,string& pattern,int i,int j){
+    bool solve(string&str,string& pattern,int i,int j, vector<vector<int>>&dp){
         if(i<0&&j<0){
             return true;
         }
@@ -16,11 +16,14 @@ public:
             }
             return true;
         }
+        if(dp[i][j]!=-1){
+            return dp[i][j];
+        }
 
         if(str[i]==pattern[j]||pattern[j]=='?')
-        return solve(str,pattern,i-1,j-1);
+        return dp[i][j]= solve(str,pattern,i-1,j-1,dp);
         else if(pattern[j]=='*')
-        return (solve(str,pattern,i-1,j)||solve(str,pattern,i,j-1));
+        return dp[i][j]=(solve(str,pattern,i-1,j,dp)||solve(str,pattern,i,j-1,dp));
         else
         return false;
     }
