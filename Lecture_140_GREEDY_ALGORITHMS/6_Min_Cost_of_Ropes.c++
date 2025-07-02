@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-long long min(long longarr[],long long n){
+long long min(long long arr[],long long n){
     priority_queue<long long, vector<long long>,greater<long long>>pq;
 
     for(int i=0;i<n;i++){
